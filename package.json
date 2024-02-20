@@ -1,12 +1,13 @@
 {
   "name": "create-next-setup",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Set up your Next.js app with Husky, Commitlint, and next.config for seamless development.",
   "main": "index.js",
   "repository": "https://github.com/bacqueyrisses/create-next-setup",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "author": "Enzo Bacqueyrisses",
   "license": "ISC",
@@ -14,8 +15,11 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.2",
     "husky": "^9.0.11",
     "kleur": "^3.0.3",
+    "lint-staged": "^15.2.2",
     "picocolors": "^1.0.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
@@ -27,5 +31,8 @@
   },
   "engines": {
     "node": ">=18.17.0"
+  },
+  "lint-staged": {
+    "*": "prettier --write ."
   }
 }
