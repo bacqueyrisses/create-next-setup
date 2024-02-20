@@ -37,3 +37,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# linter
+.husky
+commitlint.config.js
+.prettierrc
+
+
