@@ -18,5 +18,9 @@
     "prettier-plugin-tailwindcss": "^0.5.11",
     "prompts": "^2.4.2",
     "sisteransi": "^1.0.5"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18.17.0"
   }
 }
