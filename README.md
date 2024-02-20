@@ -1,4 +1,4 @@
-<h1 align="center">🤍 Create Next Setup</h1>
+<h1 align="center">🎉 Create Next Setup</h1>
 
 <p align="center">
 Set up your Next.js app with Husky, Commitlint, and next.config for seamless development.
