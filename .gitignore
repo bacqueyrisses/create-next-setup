@@ -38,9 +38,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# linter
-.husky
-commitlint.config.js
-.prettierrc
 
 
