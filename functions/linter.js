@@ -88,7 +88,7 @@ export default function setupCommitLinting() {
     ".prettierrc",
     '{ "plugins": ["prettier-plugin-tailwindcss"] }',
   );
-
+  console.log("");
   // Run prettier
   console.log("🧹 Running prettier...");
   execSync(

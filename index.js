@@ -71,6 +71,7 @@ async function run() {
   );
   preferences.config = Boolean(config);
 
+  console.log("");
   if (preferences.readme) setupReadme();
   if (preferences.config) setupNextConfig();
   if (preferences.linter) setupCommitLinting();
