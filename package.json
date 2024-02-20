@@ -1,8 +1,8 @@
 {
   "name": "create-next-setup",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Set up your Next.js app with Husky, Commitlint, and next.config for seamless development.",
-  "main": "index.mjs",
+  "main": "index.js",
   "repository": "https://github.com/bacqueyrisses/create-next-setup",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,7 +21,7 @@
   },
   "type": "module",
   "bin": {
-    "create-next-setup": "index.mjs"
+    "create-next-setup": "index.js"
   },
   "engines": {
     "node": ">=18.17.0"
