@@ -5,7 +5,7 @@ Set up your Next.js app with Husky, Commitlint, and next.config for seamless dev
 </p>
 
 <p align="center">
-  <a href="#technologies"><strong>Tech Stack</strong></a> ·
+  <a href="#technologies"><strong>Technologies</strong></a> ·
   <a href="#author"><strong>Author</strong></a>
 </p>
 
