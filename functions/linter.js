@@ -91,9 +91,7 @@ export default function setupCommitLinting() {
 
   // Run prettier
   console.log("🧹 Running prettier...");
-  execSync(
-    "prettier --plugin prettier-plugin-tailwindcss --log-level silent --write .",
-  );
+  execSync("prettier --log-level silent --write .");
 
   // Output success message
   console.log("🎉 Next.js configuration completed!");
