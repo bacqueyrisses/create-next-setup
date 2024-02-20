@@ -1,7 +1,7 @@
 {
   "name": "create-next-setup",
-  "version": "1.0.1",
-  "description": "Readme",
+  "version": "1.0.2",
+  "description": "Set up your Next.js app with Husky, Commitlint, and next.config for seamless development.",
   "main": "index.mjs",
   "repository": "https://github.com/bacqueyrisses/create-next-setup",
   "scripts": {
