@@ -5,6 +5,7 @@ Set up your Next.js app with Husky, Commitlint, and next.config for seamless dev
 </p>
 
 <p align="center">
+  <a href="#technologies"><strong>Tech Stack</strong></a> ·
   <a href="#author"><strong>Author</strong></a>
 </p>
 
@@ -13,6 +14,15 @@ Set up your Next.js app with Husky, Commitlint, and next.config for seamless dev
 </a>
 
 <br/>
+
+## Technologies
+
+- [Husky](https://typicode.github.io/husky/)
+- [Commitlint](https://github.com/conventional-changelog/commitlint)
+- [Conventional Config](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional)
+- [Lint staged](https://github.com/lint-staged/lint-staged)
+- [Next.js logging](https://nextjs.org/docs/app/api-reference/next-config-js/logging)
+- [Prettier + Tailwind plugin](https://tailwindcss.com/blog/automatic-class-sorting-with-prettier)
 
 ## Author
 
