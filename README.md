@@ -10,7 +10,7 @@ Set up your Next.js app with Husky, Commitlint, and next.config for seamless dev
 </p>
 
 <a href="https://www.npmjs.com/package/create-next-setup">
-    <img alt="create-next-setup image" src="https://github.com/bacqueyrisses/create-next-setup/assets/96829831/bbe37bb5-58dd-4a71-98c0-0302e25f0cb4">
+    <img alt="create-next-setup image" src="https://github.com/bacqueyrisses/create-next-setup/assets/96829831/c77f1c55-0003-4944-91e9-01c4732d9aef">
 </a>
 
 <br/>
