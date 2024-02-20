@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable import/no-extraneous-dependencies */
 import prompts from "prompts";
 import setupReadme from "./functions/readme.js";
 import setupCommitLinting from "./functions/linter.js";
@@ -7,6 +6,7 @@ import setupNextConfig from "./functions/config.js";
 
 async function run() {
   let preferences = {};
+
   const { readme } = await prompts(
     {
       type: "toggle",

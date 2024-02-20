@@ -20,6 +20,9 @@
     "sisteransi": "^1.0.5"
   },
   "type": "module",
+  "bin": {
+    "create-next-setup": "index.mjs"
+  },
   "engines": {
     "node": ">=18.17.0"
   }
