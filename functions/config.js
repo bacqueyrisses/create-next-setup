@@ -8,6 +8,7 @@ export default function setupNextConfig() {
     "next.config.mjs",
   ];
   const loggingConfig = "logging: { fetches: { fullUrl: true } },";
+  const routesConfig = "experimental: { typedRoutes: true },";
 
   nextConfigFiles.forEach((nextConfigPath) => {
     if (fs.existsSync(nextConfigPath)) {
@@ -22,7 +23,22 @@ export default function setupNextConfig() {
         console.log(`✅ Logging configuration added to ${nextConfigPath}.`);
       } else {
         console.log(
-          `✅ Logging configuration already exists in ${nextConfigPath}.`,
+          `❎ Logging configuration already exists in ${nextConfigPath}.`,
+        );
+      }
+      if (!content.includes(routesConfig)) {
+        // Replace the line containing "const nextConfig = {" with loggingConfig
+        content = content.replace(
+          /const nextConfig\s*=\s*{/,
+          `const nextConfig = {\n  ${routesConfig}`,
+        );
+        fs.writeFileSync(nextConfigPath, content);
+        console.log(
+          `✅ Typed Routes configuration added to ${nextConfigPath}.`,
+        );
+      } else {
+        console.log(
+          `❎ Typed Routes configuration already exists in ${nextConfigPath}.`,
         );
       }
     }

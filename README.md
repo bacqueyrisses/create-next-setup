@@ -22,6 +22,7 @@ Set up your Next.js app with Husky, Commitlint, and next.config for seamless dev
 - [Conventional Config](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional)
 - [Lint staged](https://github.com/lint-staged/lint-staged)
 - [Next.js logging](https://nextjs.org/docs/app/api-reference/next-config-js/logging)
+- [Next.js types routes](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links)
 - [Prettier + Tailwind plugin](https://tailwindcss.com/blog/automatic-class-sorting-with-prettier)
 
 ## Author
