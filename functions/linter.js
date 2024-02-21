@@ -90,7 +90,7 @@ export default function setupCommitLinting() {
   );
   console.log("");
   // Run prettier
-  console.log("🧹 Running prettier...");
+  console.log("🧹 Running Prettier...");
   execSync(
     "npx prettier --plugin prettier-plugin-tailwindcss --log-level silent --write .",
   );
