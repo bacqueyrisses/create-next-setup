@@ -3,7 +3,7 @@
 <p align="center">
 Set up your Next.js app with Husky, Commitlint, and next.config for seamless development.
   <br/>
-  `npx create-next-setup`
+  <strong><code>npx create-next-setup</code></strong>
 </p>
 
 <p align="center">
