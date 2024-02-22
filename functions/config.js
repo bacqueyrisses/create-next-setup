@@ -16,7 +16,7 @@ export default function setupNextConfig() {
       let content = fs.readFileSync(nextConfigPath, "utf8");
       if (!content.includes(loggingConfig)) {
         // Run Prettier to normalize next.config
-        execSync(`npx prettier --log-level silent --write ./${nextConfigPath}`);
+        execSync(`npx prettier --log-level log --write ./${nextConfigPath}`);
         // Replace the line containing "const nextConfig = {" with loggingConfig
         content = content.replace(
           /const nextConfig\s*=\s*{/,
