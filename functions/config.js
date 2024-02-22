@@ -1,4 +1,5 @@
 import fs from "fs";
+import { execSync } from "child_process";
 
 export default function setupNextConfig() {
   // Modify Next.js config
@@ -14,6 +15,8 @@ export default function setupNextConfig() {
     if (fs.existsSync(nextConfigPath)) {
       let content = fs.readFileSync(nextConfigPath, "utf8");
       if (!content.includes(loggingConfig)) {
+        // Run Prettier to normalize next.config
+        execSync(`npx prettier --log-level silent --write ./${nextConfigPath}`);
         // Replace the line containing "const nextConfig = {" with loggingConfig
         content = content.replace(
           /const nextConfig\s*=\s*{/,
