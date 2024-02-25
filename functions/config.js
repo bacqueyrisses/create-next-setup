@@ -14,9 +14,9 @@ export default function setupNextConfig() {
   nextConfigFiles.forEach((nextConfigPath) => {
     if (fs.existsSync(nextConfigPath)) {
       let content = fs.readFileSync(nextConfigPath, "utf8");
+      // Run Prettier to normalize next.config
+      execSync(`npx prettier --log-level log --write ./${nextConfigPath}`);
       if (!content.includes(loggingConfig)) {
-        // Run Prettier to normalize next.config
-        execSync(`npx prettier --log-level log --write ./${nextConfigPath}`);
         // Replace the line containing "const nextConfig = {" with loggingConfig
         content = content.replace(
           /const nextConfig\s*=\s*{/,
@@ -29,21 +29,24 @@ export default function setupNextConfig() {
           `❎ Logging configuration already exists in ${nextConfigPath}.`,
         );
       }
-      if (!content.includes(routesConfig)) {
-        // Replace the line containing "const nextConfig = {" with loggingConfig
+
+      if (!content.includes("experimental:")) {
+        // If experimental block doesn't exist, add it with typedRoutes
         content = content.replace(
           /const nextConfig\s*=\s*{/,
           `const nextConfig = {\n  ${routesConfig}`,
         );
-        fs.writeFileSync(nextConfigPath, content);
-        console.log(
-          `✅ Typed Routes configuration added to ${nextConfigPath}.`,
-        );
-      } else {
-        console.log(
-          `❎ Typed Routes configuration already exists in ${nextConfigPath}.`,
+      } else if (!content.includes("typedRoutes")) {
+        // If experimental block exists but typedRoutes doesn't, add it
+        content = content.replace(
+          /experimental\s*:\s*{/,
+          `experimental: {\n    typedRoutes: true,`,
         );
       }
+      fs.writeFileSync(nextConfigPath, content);
+      // Run Prettier to normalize next.config
+      execSync(`npx prettier --log-level log --write ./${nextConfigPath}`);
+      console.log(`✅ Typed Routes configuration added to ${nextConfigPath}.`);
     }
   });
 }
