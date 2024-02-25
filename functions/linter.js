@@ -61,6 +61,7 @@ export default function setupCommitLinting() {
           "test",
           "revert",
           "perf",
+          "build",
           "vercel"
         ]
       ]
