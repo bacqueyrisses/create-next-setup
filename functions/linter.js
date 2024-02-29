@@ -12,6 +12,7 @@ export default function setupCommitLinting() {
     "@commitlint/cli",
     "prettier@latest",
     "prettier-plugin-tailwindcss@latest",
+    "tailwindcss@latest"
   ];
   dependencies.forEach((dep) => {
     console.log(`✨ Installing ${dep}...`);
