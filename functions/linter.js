@@ -12,7 +12,7 @@ export default function setupCommitLinting() {
     "@commitlint/cli",
     "prettier@latest",
     "prettier-plugin-tailwindcss@latest",
-    "tailwindcss@latest"
+    "tailwindcss@latest",
   ];
   dependencies.forEach((dep) => {
     console.log(`✨ Installing ${dep}...`);
@@ -38,6 +38,7 @@ export default function setupCommitLinting() {
   // Update package.json
   const pkg = JSON.parse(fs.readFileSync("package.json"));
   pkg["lint-staged"] = { "*": "prettier --write ." };
+  pkg["prettier"] = { plugins: ["prettier-plugin-tailwindcss"] };
   pkg.scripts = pkg.scripts || {};
   pkg.scripts.format = "prettier --write .";
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
@@ -82,12 +83,6 @@ export default function setupCommitLinting() {
   module.exports = {
     "*.{js,jsx,ts,tsx}": [buildEslintCommand]
   };`,
-  );
-
-  // Add plugins to .prettierrc
-  fs.writeFileSync(
-    ".prettierrc",
-    '{ "plugins": ["prettier-plugin-tailwindcss"] }',
   );
   console.log("");
   // Run prettier
