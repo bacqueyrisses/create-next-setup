@@ -93,7 +93,7 @@ export default function setupCommitLinting() {
 
   // Create .eslintrc.json
   fs.writeFileSync(
-    ".lintstagedrc.js",
+    ".eslintrc.json",
     `{
   "extends": "next/core-web-vitals",
   "rules": {
@@ -106,7 +106,7 @@ export default function setupCommitLinting() {
   // Run prettier
   console.log("🧹 Running Prettier...");
   execSync(
-    "npx prettier --log-level silent --write .lintstagedrc.js commitlint.config.js package.json",
+    "npx prettier --log-level silent --write .lintstagedrc.js commitlint.config.js package.json .eslintrc.json",
   );
 
   // Output success message
