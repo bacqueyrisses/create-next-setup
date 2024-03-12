@@ -102,7 +102,7 @@ export default function setupCommitLinting() {
   // Run prettier
   console.log("🧹 Running Prettier...");
   execSync(
-    "npx prettier --log-level silent --write .lintstagedrc.js package.json",
+    "npx prettier --log-level silent --write .husky/.lintstagedrc.js package.json",
   );
 
   // Output success message
