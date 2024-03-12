@@ -13,7 +13,7 @@ export default function setupCommitLinting() {
     "prettier@latest",
     "prettier-plugin-tailwindcss@latest",
     "tailwindcss@latest",
-    "prettier-plugin-organize-imports@latest"
+    "prettier-plugin-organize-imports@latest",
   ];
   dependencies.forEach((dep) => {
     console.log(`✨ Installing ${dep}...`);
@@ -39,7 +39,12 @@ export default function setupCommitLinting() {
   // Update package.json
   const pkg = JSON.parse(fs.readFileSync("package.json"));
   pkg["lint-staged"] = { "*": "prettier --write ." };
-  pkg["prettier"] = { plugins: ["prettier-plugin-tailwindcss", "prettier-plugin-organize-imports"] };
+  pkg["prettier"] = {
+    plugins: [
+      "prettier-plugin-tailwindcss",
+      "prettier-plugin-organize-imports",
+    ],
+  };
   pkg.scripts = pkg.scripts || {};
   pkg.scripts.format = "prettier --write .";
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
@@ -84,6 +89,18 @@ export default function setupCommitLinting() {
   module.exports = {
     "*.{js,jsx,ts,tsx}": [buildEslintCommand]
   };`,
+  );
+
+  // Create .eslintrc.json
+  fs.writeFileSync(
+    ".lintstagedrc.js",
+    `{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/no-unescaped-entities": 0,
+    "react-hooks/exhaustive-deps": 0
+  }
+}`,
   );
   console.log("");
   // Run prettier
