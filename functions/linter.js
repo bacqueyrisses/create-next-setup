@@ -27,7 +27,7 @@ export default function setupCommitLinting() {
   // Configure husky hooks
   fs.writeFileSync(
     ".husky/pre-commit",
-    'lint-staged --config ".lintstagedrc.js"',
+    'lint-staged --config ".husky/.lintstagedrc.js"',
   );
   fs.writeFileSync(
     ".husky/_/commit-msg",
@@ -82,7 +82,7 @@ export default function setupCommitLinting() {
 
   // Create .lintstagedrc.js
   fs.writeFileSync(
-    ".lintstagedrc.js",
+    ".husky/.lintstagedrc.js",
     `const path = require("path");
 
   const buildEslintCommand = (filenames) =>
