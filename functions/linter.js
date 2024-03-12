@@ -45,14 +45,14 @@ export default function setupCommitLinting() {
       "prettier-plugin-organize-imports",
     ],
   };
-  pkg.scripts = pkg.scripts || {};
-  pkg.scripts.format = "prettier --write .";
-  fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
-
-  // Create commitlint.config.js
-  fs.writeFileSync(
-    "commitlint.config.js",
-    `module.exports = {
+  pkg["eslintConfig"] = {
+    extends: "next/core-web-vitals",
+    rules: {
+      "react/no-unescaped-entities": 0,
+      "react-hooks/exhaustive-deps": 0,
+    },
+  };
+  pkg["commitlint"] = {
     extends: ["@commitlint/config-conventional"],
     rules: {
       "type-enum": [
@@ -69,12 +69,15 @@ export default function setupCommitLinting() {
           "test",
           "revert",
           "perf",
-          "vercel"
-        ]
-      ]
-    }
-  };`,
-  );
+          "vercel",
+        ],
+      ],
+    },
+  };
+  pkg.scripts = pkg.scripts || {};
+  pkg.scripts.format = "prettier --write .";
+  fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
+
 
   // Create .lintstagedrc.js
   fs.writeFileSync(
@@ -91,17 +94,9 @@ export default function setupCommitLinting() {
   };`,
   );
 
-  // Create .eslintrc.json
-  fs.writeFileSync(
-    ".eslintrc.json",
-    `{
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "react/no-unescaped-entities": 0,
-    "react-hooks/exhaustive-deps": 0
-  }
-}`,
-  );
+  // Remove .eslintrc.json as the config is now in the package.json
+  fs.unlinkSync(".eslintrc.json");
+
   console.log("");
   // Run prettier
   console.log("🧹 Running Prettier...");
