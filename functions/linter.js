@@ -53,6 +53,12 @@ export default function setupCommitLinting() {
       "react-hooks/exhaustive-deps": 0,
     },
   };
+  pkg["postcss"] = {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {}
+    }
+  };
   pkg["commitlint"] = {
     extends: ["@commitlint/config-conventional"],
     rules: {
@@ -97,6 +103,9 @@ export default function setupCommitLinting() {
 
   // Remove .eslintrc.json as the config is now in the package.json
   fs.unlinkSync(".eslintrc.json");
+
+  // Remove postcss.config.js as the config is now in the package.json
+  fs.unlinkSync("postcss.config.js");
 
   console.log("");
   // Run prettier
