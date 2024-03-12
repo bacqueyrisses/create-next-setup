@@ -14,6 +14,7 @@ export default function setupCommitLinting() {
     "prettier-plugin-tailwindcss@latest",
     "tailwindcss@latest",
     "prettier-plugin-organize-imports@latest",
+    "eslint-config-prettier@latest"
   ];
   dependencies.forEach((dep) => {
     console.log(`✨ Installing ${dep}...`);
@@ -46,7 +47,7 @@ export default function setupCommitLinting() {
     ],
   };
   pkg["eslintConfig"] = {
-    extends: "next/core-web-vitals",
+    "extends": ["next/core-web-vitals", "prettier"],
     rules: {
       "react/no-unescaped-entities": 0,
       "react-hooks/exhaustive-deps": 0,
@@ -101,7 +102,7 @@ export default function setupCommitLinting() {
   // Run prettier
   console.log("🧹 Running Prettier...");
   execSync(
-    "npx prettier --log-level silent --write .lintstagedrc.js commitlint.config.js package.json .eslintrc.json",
+    "npx prettier --log-level silent --write .lintstagedrc.js package.json",
   );
 
   // Output success message
