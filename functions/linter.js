@@ -39,11 +39,10 @@ export default function setupCommitLinting() {
 
   // Update package.json
   const pkg = JSON.parse(fs.readFileSync("package.json"));
-  pkg["lint-staged"] = { "*": "prettier --write ." };
+  pkg["lint-staged"] = { "*": "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports" };
   pkg["prettier"] = {
     plugins: [
-      "prettier-plugin-tailwindcss",
-      "prettier-plugin-organize-imports",
+      "prettier-plugin-tailwindcss"
     ],
   };
   pkg["eslintConfig"] = {
@@ -82,7 +81,7 @@ export default function setupCommitLinting() {
     },
   };
   pkg.scripts = pkg.scripts || {};
-  pkg.scripts.format = "prettier --write .";
+  pkg.scripts.format = "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports";
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
 
 
