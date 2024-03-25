@@ -100,8 +100,13 @@ npx --no-install commitlint --edit "\$1"`,
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
 
   // Create rws.js (removes classnames whitespaces)
+  const directoryPath = ".husky/helpers"
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath );
+  }
+
   fs.writeFileSync(
-    ".husky/helpers/.rws.js",
+    ".husky/helpers/rws.js",
     `const fs = require("fs");
 const path = require("path");
 
