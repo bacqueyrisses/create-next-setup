@@ -172,7 +172,7 @@ processDirectory(rootDirectory);
       .join(" --file ")}\`;
 
   module.exports = {
-  "*.{js,jsx,ts,tsx}": ["eslint --fix", buildEslintCommand],
+  "*.{js,jsx,ts,tsx}": [buildEslintCommand],
   "*": [
     "node rws.js",
     "prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports",
