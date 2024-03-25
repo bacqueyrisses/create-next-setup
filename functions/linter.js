@@ -27,7 +27,14 @@ export default function setupCommitLinting() {
   // Configure husky hooks
   fs.writeFileSync(
     ".husky/pre-commit",
-    'lint-staged --config ".husky/.lintstagedrc.js"',
+    `#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# lint and format staged files
+npx lint-staged --config ".husky/.lintstagedrc.js"
+
+# verify typescript staged files
+npx tsc --build .`,
   );
   fs.writeFileSync(
     ".husky/_/commit-msg",
