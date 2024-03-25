@@ -15,6 +15,8 @@ export default function setupCommitLinting() {
     "tailwindcss@latest",
     "prettier-plugin-organize-imports@latest",
     "eslint-config-prettier@latest",
+    "prettier-plugin-embed",
+    "prettier-plugin-sql",
   ];
   dependencies.forEach((dep) => {
     console.log(`✨ Installing ${dep}...`);
@@ -45,7 +47,14 @@ npx tsc --build .`,
   // Update package.json
   const pkg = JSON.parse(fs.readFileSync("package.json"));
   pkg["prettier"] = {
-    plugins: ["prettier-plugin-tailwindcss"],
+    plugins: [
+      "prettier-plugin-tailwindcss",
+      "prettier-plugin-embed",
+      "prettier-plugin-sql",
+    ],
+    embeddedSqlIdentifiers: ["sql"],
+    language: "postgresql",
+    keywordCase: "upper",
   };
   pkg["eslintConfig"] = {
     extends: ["next/core-web-vitals", "prettier"],
@@ -84,7 +93,7 @@ npx tsc --build .`,
   };
   pkg.scripts = pkg.scripts || {};
   pkg.scripts.format =
-    "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports";
+    "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports --plugin=prettier-plugin-embed --plugin=prettier-plugin-sql";
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
 
   // Create rws.js (removes classnames whitespaces)
@@ -174,7 +183,7 @@ processDirectory(rootDirectory);
   module.exports = {
   "*.{js,jsx,ts,tsx}": [
     "node rws.js",
-    "prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports",
+    "prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports --plugin=prettier-plugin-embed --plugin=prettier-plugin-sql",
     buildEslintCommand,
   ],
   };`,
