@@ -34,12 +34,8 @@ export default function setupCommitLinting() {
     'npx --no-install commitlint --edit "$1"',
   );
 
-  // Remove husky from gitignore
-  fs.unlinkSync(".husky/_/.gitignore");
-
   // Update package.json
   const pkg = JSON.parse(fs.readFileSync("package.json"));
-  pkg["lint-staged"] = { "*": "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports" };
   pkg["prettier"] = {
     plugins: [
       "prettier-plugin-tailwindcss"
@@ -96,7 +92,8 @@ export default function setupCommitLinting() {
       .join(" --file ")}\`;
 
   module.exports = {
-    "*.{js,jsx,ts,tsx}": [buildEslintCommand]
+    "*.{js,jsx,ts,tsx}": [buildEslintCommand],
+      "*": "node rws.js && prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports"
   };`,
   );
 
