@@ -33,7 +33,7 @@ export default function setupCommitLinting() {
 . "$(dirname -- "$0")/_/husky.sh"
 
 # lint and format staged files
-npx lint-staged --config ".husky/.lintstagedrc.js"
+npx lint-staged --config ".husky/helpers/.lintstagedrc.js"
 
 # verify typescript staged files
 npx tsc --build .`,
@@ -101,7 +101,7 @@ npx --no-install commitlint --edit "\$1"`,
 
   // Create rws.js (removes classnames whitespaces)
   fs.writeFileSync(
-    "rws.js",
+    ".husky/helpers/.rws.js",
     `const fs = require("fs");
 const path = require("path");
 
@@ -175,7 +175,7 @@ processDirectory(rootDirectory);
 
   // Create .lintstagedrc.js
   fs.writeFileSync(
-    ".husky/.lintstagedrc.js",
+    ".husky/helpers/.lintstagedrc.js",
     `const path = require("path");
 
   const buildEslintCommand = (filenames) =>
@@ -185,7 +185,7 @@ processDirectory(rootDirectory);
 
   module.exports = {
   "*.{js,jsx,ts,tsx}": [
-    "node rws.js",
+    "node .husky/helpers/.rws.js",
     "prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports --plugin=prettier-plugin-embed --plugin=prettier-plugin-sql",
     buildEslintCommand,
   ],
@@ -202,7 +202,7 @@ processDirectory(rootDirectory);
   // Run prettier
   console.log("🧹 Running Prettier...");
   execSync(
-    "npx prettier --log-level silent --write .husky/.lintstagedrc.js package.json",
+    "npx prettier --log-level silent --write .husky/helpers/.lintstagedrc.js package.json",
   );
 
   // Output success message
