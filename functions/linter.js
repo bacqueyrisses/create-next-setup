@@ -41,7 +41,10 @@ npx tsc --build .`,
 
   fs.writeFileSync(
     ".husky/_/commit-msg",
-    'npx --no-install commitlint --edit "$1"',
+    `#!/usr/bin/env sh
+
+# check commit message format using commitlint
+npx --no-install commitlint --edit "\$1"`,
   );
 
   // Update package.json
