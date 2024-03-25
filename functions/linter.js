@@ -36,6 +36,7 @@ npx lint-staged --config ".husky/.lintstagedrc.js"
 # verify typescript staged files
 npx tsc --build .`,
   );
+
   fs.writeFileSync(
     ".husky/_/commit-msg",
     'npx --no-install commitlint --edit "$1"',
@@ -136,7 +137,7 @@ function processDirectory(directoryPath) {
               /className="(.*?)"/g,
               (match, className) => {
                 const compactedClassName = removeWhiteSpaceFromJSX(className);
-                return \`className="${compactedClassName}"\`;
+                return \`className="\${compactedClassName}"\`;
               },
             );
 
@@ -144,7 +145,7 @@ function processDirectory(directoryPath) {
               if (err) {
                 console.error("Error writing file:", err);
               } else {
-                console.log(\`Modified and saved: ${file}\`);
+                console.log(\`Modified and saved: \${file}\`);
               }
             });
           });
