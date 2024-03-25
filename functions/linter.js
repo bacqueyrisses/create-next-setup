@@ -14,7 +14,7 @@ export default function setupCommitLinting() {
     "prettier-plugin-tailwindcss@latest",
     "tailwindcss@latest",
     "prettier-plugin-organize-imports@latest",
-    "eslint-config-prettier@latest"
+    "eslint-config-prettier@latest",
   ];
   dependencies.forEach((dep) => {
     console.log(`✨ Installing ${dep}...`);
@@ -37,22 +37,20 @@ export default function setupCommitLinting() {
   // Update package.json
   const pkg = JSON.parse(fs.readFileSync("package.json"));
   pkg["prettier"] = {
-    plugins: [
-      "prettier-plugin-tailwindcss"
-    ],
+    plugins: ["prettier-plugin-tailwindcss"],
   };
   pkg["eslintConfig"] = {
-    "extends": ["next/core-web-vitals", "prettier"],
+    extends: ["next/core-web-vitals", "prettier"],
     rules: {
       "react/no-unescaped-entities": 0,
       "react-hooks/exhaustive-deps": 0,
     },
   };
   pkg["postcss"] = {
-    "plugins": {
-      "tailwindcss": {},
-      "autoprefixer": {}
-    }
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   };
   pkg["commitlint"] = {
     extends: ["@commitlint/config-conventional"],
@@ -77,9 +75,83 @@ export default function setupCommitLinting() {
     },
   };
   pkg.scripts = pkg.scripts || {};
-  pkg.scripts.format = "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports";
+  pkg.scripts.format =
+    "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports";
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
 
+  // Create rws.js (removes classnames whitespaces)
+  fs.writeFileSync(
+    "rws.js",
+    `const fs = require("fs");
+const path = require("path");
+
+const directoriesToIgnore = ["node_modules", ".git", ".next"];
+const acceptedFileExtensions = [".js", ".jsx", ".ts", ".tsx"];
+const defaultRootDirectory = "./";
+
+function removeWhiteSpaceFromJSX(jsxString) {
+  const regex = /\\s+/g;
+  return jsxString.replace(regex, " ").trim();
+}
+
+function shouldIgnoreDirectory(directoryName) {
+  return directoriesToIgnore.includes(directoryName);
+}
+
+function processDirectory(directoryPath) {
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      console.error("Error reading directory:", err);
+      return;
+    }
+
+    files.forEach((file) => {
+      const filePath = path.join(directoryPath, file);
+
+      fs.stat(filePath, (err, stats) => {
+        if (err) {
+          console.error("Error getting file stats:", err);
+          return;
+        }
+
+        if (stats.isDirectory()) {
+          if (!shouldIgnoreDirectory(file)) {
+            processDirectory(filePath);
+          }
+        } else if (acceptedFileExtensions.includes(path.extname(file))) {
+          fs.readFile(filePath, "utf8", (err, data) => {
+            if (err) {
+              console.error("Error reading file:", err);
+              return;
+            }
+
+            const modifiedContent = data.replace(
+              /className="(.*?)"/g,
+              (match, className) => {
+                const compactedClassName = removeWhiteSpaceFromJSX(className);
+                return \`className="${compactedClassName}"\`;
+              },
+            );
+
+            fs.writeFile(filePath, modifiedContent, "utf8", (err) => {
+              if (err) {
+                console.error("Error writing file:", err);
+              } else {
+                console.log(\`Modified and saved: ${file}\`);
+              }
+            });
+          });
+        }
+      });
+    });
+  });
+}
+
+const rootDirectory = process.argv[2] || defaultRootDirectory;
+
+processDirectory(rootDirectory);
+`,
+  );
 
   // Create .lintstagedrc.js
   fs.writeFileSync(
@@ -92,8 +164,12 @@ export default function setupCommitLinting() {
       .join(" --file ")}\`;
 
   module.exports = {
-    "*.{js,jsx,ts,tsx}": [buildEslintCommand],
-      "*": "node rws.js && prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports"
+   "*.{js,jsx,ts,tsx}": [buildEslintCommand],
+   "*": [
+    "eslint --fix",
+    "node rws.js",
+    "prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports",
+   ],
   };`,
   );
 
