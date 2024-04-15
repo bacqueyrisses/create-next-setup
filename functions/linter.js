@@ -222,9 +222,10 @@ processDirectory(rootDirectory);
   module.exports = {
   "*.{js,jsx,ts,tsx}": [
     "node .husky/helpers/.rws.js",
-    "prettier --write . --log-level warn --config ./package.json",
-    "prettier --write . --log-level warn --plugin=prettier-plugin-organize-imports",
+    "prettier --write --log-level warn --config ./package.json",
+    "prettier --write --log-level warn --plugin=prettier-plugin-organize-imports",
     buildEslintCommand,
+    "git add",
   ],
   };`,
   );
