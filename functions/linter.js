@@ -234,11 +234,11 @@ console.log("🧹...");
 
   // Remove postcss.config.js as the config is now in the package.json
   try {
-    fs.unlinkSync("postcss.config.js");
+    fs.unlinkSync("postcss.config.js")
   } catch (err) {
     if (err.code === 'ENOENT' && filePath.endsWith('.js')) {
       fs.unlinkSync("postcss.config.mjs");
-  }
+  }}
 
   console.log("");
   // Run prettier
