@@ -175,7 +175,7 @@ npx --no-install commitlint --edit "\$1"`,
                     if (/\\\${.*?}/.test(classNameWithBackticks)) { // Escape backslash
                       // Handle class name with backticks containing a variable
                       // You can replace this logic with your specific handling
-                    return \`className={\\\`\${removeWhiteSpaceFromJSX(classNameWithBackticks).trim\\\`}\`;
+                    return \`className={\\\`\${removeWhiteSpaceFromJSX(classNameWithBackticks).trim()}\\\`}\`;
                   } else {
                     // Handle class name with backticks without a variable
                     return \`className="\${removeWhiteSpaceFromJSX(classNameWithBackticks).trim()}"\`;
