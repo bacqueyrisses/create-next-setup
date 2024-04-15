@@ -96,7 +96,7 @@ npx --no-install commitlint --edit "\$1"`,
   };
   pkg.scripts = pkg.scripts || {};
   pkg.scripts.format =
-    "prettier --write . --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports --plugin=prettier-plugin-embed --plugin=prettier-plugin-sql";
+    "node .husky/helpers/rws.js && prettier --write . --config ./package.json && prettier --write . --plugin=prettier-plugin-organize-imports";
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
 
   // Create rws.js (removes classnames whitespaces)
@@ -191,7 +191,7 @@ processDirectory(rootDirectory);
   module.exports = {
   "*.{js,jsx,ts,tsx}": [
     "node .husky/helpers/.rws.js",
-    "prettier --write --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports --plugin=prettier-plugin-embed --plugin=prettier-plugin-sql",
+    "prettier --write . --config ./package.json && prettier --write . --plugin=prettier-plugin-organize-imports",
     buildEslintCommand,
   ],
   };`,
