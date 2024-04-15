@@ -233,7 +233,12 @@ console.log("🧹...");
   fs.unlinkSync(".eslintrc.json");
 
   // Remove postcss.config.js as the config is now in the package.json
-  fs.unlinkSync("postcss.config.js");
+  try {
+    fs.unlinkSync("postcss.config.js");
+  } catch (err) {
+    if (err.code === 'ENOENT' && filePath.endsWith('.js')) {
+      fs.unlinkSync("postcss.config.mjs");
+  }
 
   console.log("");
   // Run prettier
