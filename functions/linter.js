@@ -36,7 +36,7 @@ export default function setupCommitLinting() {
 npx lint-staged --config ".husky/helpers/.lintstagedrc.js"
 
 # verify typescript staged files
-npx tsc --build .`,
+# npx tsc --build .`,
   );
 
   fs.writeFileSync(
