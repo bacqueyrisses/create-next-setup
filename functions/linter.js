@@ -51,11 +51,16 @@ npx --no-install commitlint --edit "\$1"`,
   const pkg = JSON.parse(fs.readFileSync("package.json"));
   pkg["prettier"] = {
     plugins: [
-      "prettier-plugin-tailwindcss",
       "prettier-plugin-embed",
       "prettier-plugin-sql",
+      "prettier-plugin-tailwindcss"
     ],
-    embeddedSqlIdentifiers: ["sql"],
+    embeddedSqlComments: [
+      "sql"
+    ],
+    embeddedSqlTags: [
+      "sql"
+    ],
     language: "postgresql",
     keywordCase: "upper",
   };
@@ -96,7 +101,7 @@ npx --no-install commitlint --edit "\$1"`,
   };
   pkg.scripts = pkg.scripts || {};
   pkg.scripts.format =
-    "node .husky/helpers/rws.js && prettier --write . --config ./package.json && prettier --write . --plugin=prettier-plugin-organize-imports";
+    "node .husky/helpers/rws.js && prettier --write . --log-level warn --config ./package.json && prettier --write . --log-level log --plugin=prettier-plugin-organize-imports";
   fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
 
   // Create rws.js (removes classnames whitespaces)
@@ -110,12 +115,12 @@ npx --no-install commitlint --edit "\$1"`,
     `const fs = require("fs");
 const path = require("path");
 
-const directoriesToIgnore = ["node_modules", ".git", ".next"];
+const directoriesToIgnore = ["node_modules", ".git", ".next", ".husky"];
 const acceptedFileExtensions = [".js", ".jsx", ".ts", ".tsx"];
 const defaultRootDirectory = "./";
 
 function removeWhiteSpaceFromJSX(jsxString) {
-  const regex = /\\s+/g;
+  const regex = /\\\\s+/g; // Escape backslashes
   return jsxString.replace(regex, " ").trim();
 }
 
@@ -151,10 +156,35 @@ function processDirectory(directoryPath) {
             }
 
             const modifiedContent = data.replace(
-              /className="(.*?)"/g,
-              (match, className) => {
-                const compactedClassName = removeWhiteSpaceFromJSX(className);
-                return \`className="\${compactedClassName}"\`;
+              /className={"(.*?)"}|className="(.*?)"|className={\\\\s*"(.*?)"\\\\s*}|className={\`(.*?)\`}/gs,
+              (
+                match,
+                classNameWithBraces,
+                classNameWithoutBraces,
+                classNameWithBrackets,
+                classNameWithBackticks,
+              ) => {
+                let className =
+                  classNameWithBraces ||
+                  classNameWithoutBraces ||
+                  classNameWithBrackets ||
+                  classNameWithBackticks;
+                if (classNameWithBackticks) {
+                  // Check if there is a variable inside the backticks
+                  if (/\\\${.*?}/.test(classNameWithBackticks)) { // Escape backslash
+                    // Handle class name with backticks containing a variable
+                    // You can replace this logic with your specific handling
+                    return \`className={\`$\{removeWhiteSpaceFromJSX(classNameWithBackticks).trim()}
+\`}\`;
+                  } else {
+                    // Handle class name with backticks without a variable
+                    return \`className="\${removeWhiteSpaceFromJSX(classNameWithBackticks).trim()}"\`;
+                  }
+                } else {
+                  // Handle other cases where className is enclosed in quotes or braces
+                  const compactedClassName = removeWhiteSpaceFromJSX(className);
+                  return \`className={"\${compactedClassName}"}\`;
+                }
               },
             );
 
@@ -175,8 +205,9 @@ function processDirectory(directoryPath) {
 const rootDirectory = process.argv[2] || defaultRootDirectory;
 
 processDirectory(rootDirectory);
-`,
+`
   );
+
 
   // Create .lintstagedrc.js
   fs.writeFileSync(
@@ -191,7 +222,8 @@ processDirectory(rootDirectory);
   module.exports = {
   "*.{js,jsx,ts,tsx}": [
     "node .husky/helpers/.rws.js",
-    "prettier --write . --config ./package.json && prettier --write . --plugin=prettier-plugin-organize-imports",
+    "prettier --write . --log-level warn --config ./package.json",
+    "prettier --write . --log-level warn --plugin=prettier-plugin-organize-imports",
     buildEslintCommand,
   ],
   };`,
@@ -207,7 +239,7 @@ processDirectory(rootDirectory);
   // Run prettier
   console.log("🧹 Running Prettier...");
   execSync(
-    "npx prettier --log-level silent --write .husky/helpers/.lintstagedrc.js package.json",
+    "npx prettier --log-level warn --write .husky/helpers/.lintstagedrc.js package.json",
   );
 
   // Output success message
