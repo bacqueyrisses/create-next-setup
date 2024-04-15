@@ -236,7 +236,7 @@ console.log("🧹...");
   try {
     fs.unlinkSync("postcss.config.js")
   } catch (err) {
-    if (err.code === 'ENOENT' && filePath.endsWith('.js')) {
+    if (err.code === 'ENOENT') {
       fs.unlinkSync("postcss.config.mjs");
   }}
 
