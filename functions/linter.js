@@ -230,15 +230,16 @@ console.log("🧹...");
   );
 
   // Remove .eslintrc.json as the config is now in the package.json
-  fs.unlinkSync(".eslintrc.json");
+  if (fs.existsSync(".eslintrc.json")) {
+    fs.unlinkSync(".eslintrc.json");
+  }
 
   // Remove postcss.config.js as the config is now in the package.json
-  try {
-    fs.unlinkSync("postcss.config.js")
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      fs.unlinkSync("postcss.config.mjs");
-  }}
+  if (fs.existsSync("postcss.config.js")) {
+    fs.unlinkSync("postcss.config.js");
+  } else if (fs.existsSync("postcss.config.mjs")) {
+    fs.unlinkSync("postcss.config.mjs");
+  }
 
   console.log("");
   // Run prettier
